@@ -1,4 +1,5 @@
 @php
+    use Illuminate\Support\Arr;
     use Illuminate\Support\Facades\Storage;
 @endphp
 
@@ -10,27 +11,29 @@
         {{ $getChildComponentContainer() }}
 
         @php
-            $state = $field->getState();
+            $childState = $field->getChildComponentContainer()->getRawState();
+            $path = $childState['path'] ?? null;
+
+            // FileUpload's live state is a UUID-keyed array (e.g.
+            // ['9f1c...' => 'images/photo.jpg']), not a plain [0 => ...]
+            // indexed one — Arr::first() grabs the value regardless of key.
+            $path = is_array($path) ? Arr::first($path) : $path;
+
+            $record = $field->getRecord();
 
             $uploadedImage = null;
 
-            if (is_string($state) && filled($state)) {
-                // Stored as a plain path or full URL
-                if (filter_var($state, FILTER_VALIDATE_URL)) {
-                    $uploadedImage = $state;
-                } else {
-                    $uploadedImage = Storage::disk('public')->url($state);
-                }
-            } elseif (is_array($state) && count($state) > 0) {
-                // FileUpload stores state as [uuid => path] or [path]
-                $path = array_values($state)[0] ?? null;
+            if (filled($path)) {
+                $uploadedImage = filter_var($path, FILTER_VALIDATE_URL)
+                    ? $path
+                    : Storage::disk($field->getDisk())->url($path);
+            } elseif ($record && $field->getName() && $record->{$field->getName()}) {
+                $existingImage = $record->{$field->getName()};
 
-                if ($path && is_string($path)) {
-                    if (filter_var($path, FILTER_VALIDATE_URL)) {
-                        $uploadedImage = $path;
-                    } else {
-                        $uploadedImage = Storage::disk('public')->url($path);
-                    }
+                if (filter_var($existingImage, FILTER_VALIDATE_URL)) {
+                    $uploadedImage = $existingImage;
+                } else {
+                    $uploadedImage = Storage::disk($field->getDisk())->url($existingImage);
                 }
             }
         @endphp

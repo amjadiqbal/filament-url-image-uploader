@@ -11,4 +11,3 @@
 .phpunit.result.cache
 composer.phar
 Thumbs.db
-phpunit.xml
