@@ -2,6 +2,18 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 1.2.1 - 2026-09-19
+
+### Fixed
+- **1.2.0's `^8.2` floor was still wrong and briefly broke installs on PHP 8.2.** The locked
+  `openspout/openspout` (a transitive dependency via `filament/actions`) requires
+  `~8.3.0 || ~8.4.0 || ~8.5.0` — PHP 8.2 was never actually installable from this lock file. CI
+  only caught this after 1.2.0 was tagged, because the local verification for that release used
+  `composer install --dry-run` with a platform override, which doesn't enforce transitive PHP
+  version constraints the way a real install does. Bumped the floor to `^8.3` (verified against a
+  real `composer install`, and against CI actually going green on PHP 8.3 and 8.4) and dropped 8.2
+  from the CI matrix.
+
 ## 1.2.0 - 2026-09-19
 
 ### Changed
