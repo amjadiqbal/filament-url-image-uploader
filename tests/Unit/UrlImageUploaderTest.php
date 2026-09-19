@@ -60,4 +60,22 @@ class UrlImageUploaderTest extends TestCase
             view()->exists('filament-url-image-uploader::components.url-image-uploader')
         );
     }
+
+    public function test_service_provider_registers_translations(): void
+    {
+        // A raw, unresolved translation call returns the key itself
+        // (e.g. "filament-url-image-uploader::url-image-uploader.tabs.upload.label")
+        // when the namespace isn't actually registered — asserting the
+        // resolved English string, not just that the call doesn't error,
+        // confirms hasTranslations() is wired up correctly.
+        $this->assertSame(
+            'File Upload',
+            __('filament-url-image-uploader::url-image-uploader.tabs.upload.label')
+        );
+
+        $this->assertSame(
+            'URL Upload',
+            __('filament-url-image-uploader::url-image-uploader.tabs.url.label')
+        );
+    }
 }

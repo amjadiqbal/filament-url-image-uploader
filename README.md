@@ -99,6 +99,14 @@ open and throw a type error the moment you type-hint a `string` return. Read
 `$state['image']['path'] ?? null` (an array) if you need a label from it, or avoid keying the label
 off this field at all.
 
+## Translations
+
+All user-facing strings ship in English by default. Publish them to customize or translate:
+
+```bash
+php artisan vendor:publish --tag="filament-url-image-uploader-translations"
+```
+
 ## Testing
 
 ```bash

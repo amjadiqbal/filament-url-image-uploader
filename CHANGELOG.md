@@ -2,6 +2,19 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 1.3.0 - 2026-09-19
+
+### Added
+- **Translation support.** All user-facing strings (tab labels, the URL helper text and validation
+  message, the fetch action label, notification titles/bodies, and the preview's alt/hover text)
+  now go through `__('filament-url-image-uploader::url-image-uploader.*')` instead of being
+  hardcoded English. Publish and override them with:
+  ```bash
+  php artisan vendor:publish --tag="filament-url-image-uploader-translations"
+  ```
+  This was previously advertised as supported in the Filament plugin directory listing but wasn't
+  actually implemented — the package had no `lang/` directory and no `hasTranslations()` call.
+
 ## 1.2.1 - 2026-09-19
 
 ### Fixed

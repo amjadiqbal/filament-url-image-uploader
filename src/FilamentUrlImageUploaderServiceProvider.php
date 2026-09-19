@@ -11,6 +11,7 @@ class FilamentUrlImageUploaderServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('filament-url-image-uploader')
-            ->hasViews();
+            ->hasViews()
+            ->hasTranslations();
     }
 }

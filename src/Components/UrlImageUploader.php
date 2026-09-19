@@ -140,7 +140,7 @@ class UrlImageUploader extends Field
             Tabs::make('upload_methods')
                 ->tabs([
                     Tabs\Tab::make('upload')
-                        ->label('File Upload')
+                        ->label(__('filament-url-image-uploader::url-image-uploader.tabs.upload.label'))
                         ->icon('heroicon-o-arrow-up-tray')
                         ->schema([
                             FileUpload::make('path')
@@ -156,7 +156,7 @@ class UrlImageUploader extends Field
                                 ->dehydrated(false),
                         ]),
                     Tabs\Tab::make('url')
-                        ->label('URL Upload')
+                        ->label(__('filament-url-image-uploader::url-image-uploader.tabs.url.label'))
                         ->icon('heroicon-o-globe-alt')
                         ->schema([
                             TextInput::make('url')
@@ -175,15 +175,15 @@ class UrlImageUploader extends Field
                                         }
 
                                         if (! filter_var($value, FILTER_VALIDATE_URL)) {
-                                            $fail('The url field must be a valid URL.');
+                                            $fail(__('filament-url-image-uploader::url-image-uploader.url.invalid'));
                                         }
                                     };
                                 })
                                 ->dehydrated(false)
-                                ->helperText('Enter a valid image URL'),
+                                ->helperText(__('filament-url-image-uploader::url-image-uploader.url.helper_text')),
                             Actions::make([
                                 Actions\Action::make('fetch')
-                                    ->label('Fetch Image')
+                                    ->label(__('filament-url-image-uploader::url-image-uploader.actions.fetch.label'))
                                     ->icon('heroicon-o-arrow-down-tray')
                                     ->action(function (Set $set, $state) {
                                         $imageUrl = $state['url'] ?? null;
@@ -191,8 +191,8 @@ class UrlImageUploader extends Field
                                         if (! $imageUrl || ! filter_var($imageUrl, FILTER_VALIDATE_URL)) {
                                             Notification::make()
                                                 ->danger()
-                                                ->title('Invalid URL')
-                                                ->body('Please enter a valid image URL.')
+                                                ->title(__('filament-url-image-uploader::url-image-uploader.notifications.invalid_url.title'))
+                                                ->body(__('filament-url-image-uploader::url-image-uploader.notifications.invalid_url.body'))
                                                 ->send();
 
                                             return;
@@ -207,8 +207,8 @@ class UrlImageUploader extends Field
                                         if (! in_array($scheme, ['http', 'https'], true)) {
                                             Notification::make()
                                                 ->danger()
-                                                ->title('Invalid URL')
-                                                ->body('Only http:// and https:// URLs are supported.')
+                                                ->title(__('filament-url-image-uploader::url-image-uploader.notifications.invalid_scheme.title'))
+                                                ->body(__('filament-url-image-uploader::url-image-uploader.notifications.invalid_scheme.body'))
                                                 ->send();
 
                                             return;
@@ -266,12 +266,12 @@ class UrlImageUploader extends Field
 
                                             Notification::make()
                                                 ->success()
-                                                ->title('Image fetched successfully')
+                                                ->title(__('filament-url-image-uploader::url-image-uploader.notifications.fetch_success.title'))
                                                 ->send();
                                         } catch (\Exception $e) {
                                             Notification::make()
                                                 ->danger()
-                                                ->title('Failed to fetch image')
+                                                ->title(__('filament-url-image-uploader::url-image-uploader.notifications.fetch_failed.title'))
                                                 ->body($e->getMessage())
                                                 ->send();
                                         }
