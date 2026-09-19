@@ -24,6 +24,7 @@ class TestCase extends Orchestra
         Schema::create('test_models', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
+            $table->json('gallery')->nullable();
             $table->timestamps();
         });
     }

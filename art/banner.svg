@@ -97,7 +97,7 @@
   <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#64748b" transform="translate(80, 560)">
     <text x="0" y="0">Filament 3.x</text>
     <circle cx="112" cy="-5" r="2.5" fill="#475569"/>
-    <text x="124" y="0">PHP 8.1+</text>
+    <text x="124" y="0">PHP 8.2+</text>
     <circle cx="216" cy="-5" r="2.5" fill="#475569"/>
     <text x="228" y="0">MIT Licensed</text>
   </g>

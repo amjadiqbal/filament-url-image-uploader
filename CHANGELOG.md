@@ -2,6 +2,27 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 1.2.0 - 2026-09-19
+
+### Changed
+- **Minimum PHP bumped to `^8.2`.** The `^8.1` constraint hadn't been accurate for a while: the
+  locked dev dependencies (Symfony, in particular) already required PHP 8.2+, so a fresh
+  `composer install` on PHP 8.1 was failing regardless of what composer.json claimed. This makes
+  the declared constraint match what actually installs. CI now runs against PHP 8.2, 8.3, and 8.4.
+- `.github/dependabot.yml` now configures a 7-day update cooldown (14 days for semver-major) —
+  the last remaining gap in the Filament plugin directory's automated package-health scan.
+
+### Added
+- A dedicated Testbench/Livewire test suite for using the field inside a `Repeater` as an image
+  gallery (`tests/Feature/RepeaterGalleryTest.php`): fresh multi-image upload, a no-op
+  edit-and-save across separate page loads, deleting a middle row, reordering, adding a row to an
+  existing gallery, deleting-then-adding (to catch a resurrected image), and an added-but-empty
+  row saving as `null` instead of crashing. All pass against the current implementation.
+- A "Using it in a Repeater" section in the README, including a documented gotcha: an `itemLabel()`
+  closure that reads the row's image value directly receives the field's nested `{path, url}` live
+  state, not the flat string the model attribute ends up with, and will throw if you type-hint a
+  `string` return.
+
 ## 1.1.1 - 2026-09-19
 
 Maintenance release — no code changes to the field itself. Addresses package-health gaps flagged

@@ -9,4 +9,8 @@ class TestModel extends Model
     protected $table = 'test_models';
 
     protected $guarded = [];
+
+    protected $casts = [
+        'gallery' => 'array',
+    ];
 }

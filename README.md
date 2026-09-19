@@ -71,6 +71,34 @@ UrlImageUploader::make('image')->maxUrlFetchSize(5 * 1024 * 1024); // 5 MB
 `multiple()` mode — for a gallery of several images, use one `UrlImageUploader` per image, or a
 `Repeater` of them.
 
+### Using it in a Repeater (image gallery)
+
+```php
+use Filament\Forms\Components\Repeater;
+
+Repeater::make('gallery')
+    ->schema([
+        UrlImageUploader::make('image')->directory('gallery'),
+    ])
+    ->reorderable()
+    ->addable()
+    ->deletable();
+```
+
+Each row gets its own instance of the field, so adding, deleting, and reordering rows keeps every
+image with its own row — covered by a dedicated Testbench/Livewire suite
+(`tests/Feature/RepeaterGalleryTest.php`) exercising fresh multi-image upload, a no-op edit-and-save
+across separate page loads, deleting a middle row, reordering, adding a row to an existing gallery,
+and deleting-then-adding (to catch a resurrected "deleted" image).
+
+**Gotcha:** while a row is being edited, its live state is the field's internal `{path, url}`
+shape, not the flat string your model attribute ends up with — that flat string only exists after
+dehydration. If you add an `itemLabel()` (or a header) that reads the row's image value directly,
+e.g. `fn (array $state) => $state['image']`, it will receive that nested array while the form is
+open and throw a type error the moment you type-hint a `string` return. Read
+`$state['image']['path'] ?? null` (an array) if you need a label from it, or avoid keying the label
+off this field at all.
+
 ## Testing
 
 ```bash
