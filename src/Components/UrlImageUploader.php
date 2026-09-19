@@ -11,6 +11,7 @@ use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UrlImageUploader extends Field
 {
@@ -216,7 +217,23 @@ class UrlImageUploader extends Field
 
                                         try {
                                             $rawFilename = basename(parse_url($imageUrl, PHP_URL_PATH) ?: 'image.jpg');
-                                            $filename = preg_replace('/[^A-Za-z0-9._-]/', '_', $rawFilename) ?: 'image.jpg';
+                                            $sanitizedFilename = preg_replace('/[^A-Za-z0-9._-]/', '_', $rawFilename) ?: 'image.jpg';
+
+                                            // Different source URLs frequently share the same
+                                            // basename (generic CDN paths, a query string that
+                                            // got stripped, several rows in a Repeater gallery
+                                            // fetched from the same site) — without a unique
+                                            // filename, the second fetch silently overwrites the
+                                            // first file on disk, and every row that pointed at
+                                            // that name ends up showing the same, wrong image.
+                                            // Default to a random prefix (matching FileUpload's
+                                            // own default of not preserving the original name);
+                                            // preserveFilenames() keeps the readable name but
+                                            // still avoids a silent overwrite by disambiguating
+                                            // only when the exact path is already taken.
+                                            $filename = $this->shouldPreserveFilenames
+                                                ? $this->uniqueFilename($sanitizedFilename)
+                                                : Str::random(20).'_'.$sanitizedFilename;
 
                                             $context = stream_context_create([
                                                 'http' => [
@@ -281,5 +298,36 @@ class UrlImageUploader extends Field
                 ])
                 ->columnSpanFull(),
         ];
+    }
+
+    /**
+     * Keeps $sanitizedFilename as-is if that path is free; otherwise appends
+     * an incrementing "-1", "-2", ... suffix before the extension until it
+     * finds one that is. Used by preserveFilenames() so the human-readable
+     * name is kept whenever possible without silently overwriting an
+     * existing file.
+     */
+    protected function uniqueFilename(string $sanitizedFilename): string
+    {
+        $disk = Storage::disk($this->disk);
+
+        if (! $disk->exists("{$this->directory}/{$sanitizedFilename}")) {
+            return $sanitizedFilename;
+        }
+
+        $extension = pathinfo($sanitizedFilename, PATHINFO_EXTENSION);
+        $basename = pathinfo($sanitizedFilename, PATHINFO_FILENAME);
+
+        $suffix = 1;
+
+        do {
+            $candidate = $extension !== ''
+                ? "{$basename}-{$suffix}.{$extension}"
+                : "{$basename}-{$suffix}";
+
+            $suffix++;
+        } while ($disk->exists("{$this->directory}/{$candidate}"));
+
+        return $candidate;
     }
 }

@@ -2,6 +2,20 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 1.4.0 - 2026-09-19
+
+### Fixed
+- **Critical: the "fetch from URL" action silently overwrote files with the same name.** The
+  fetched filename was taken directly from the URL's basename with no uniqueness handling, so two
+  different remote images that happened to share a basename — a generic CDN path, or (very
+  plausible in a `Repeater` gallery) several rows fetched from the same source site — overwrote
+  each other on disk. Every row pointing at that name then rendered the same, wrong image. Found
+  while verifying the field end-to-end in a real Filament v3 panel: fetching two different photos
+  into two `Repeater` gallery rows left only one file on disk. Fixed by defaulting to a random
+  filename prefix (matching `FileUpload`'s own default of not preserving the original name);
+  `preserveFilenames()` now disambiguates with a `-1`, `-2`, ... suffix instead of silently
+  overwriting, only when the exact name is already taken.
+
 ## 1.3.0 - 2026-09-19
 
 ### Added

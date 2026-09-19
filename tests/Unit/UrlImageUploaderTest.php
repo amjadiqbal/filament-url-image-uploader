@@ -4,6 +4,7 @@ namespace AmjadIqbal\FilamentUrlImageUploader\Tests\Unit;
 
 use AmjadIqbal\FilamentUrlImageUploader\Components\UrlImageUploader;
 use AmjadIqbal\FilamentUrlImageUploader\Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
 
 class UrlImageUploaderTest extends TestCase
 {
@@ -77,5 +78,43 @@ class UrlImageUploaderTest extends TestCase
             'URL Upload',
             __('filament-url-image-uploader::url-image-uploader.tabs.url.label')
         );
+    }
+
+    /**
+     * Reproduces a real bug found while testing the field inside a Repeater
+     * gallery: fetching two different remote images that happen to share a
+     * basename (a generic CDN path, or several rows pulled from the same
+     * site) silently overwrote the first file on disk, and both rows'
+     * "different" images ended up rendering identically. uniqueFilename()
+     * is the fix — this asserts it directly rather than through the fetch
+     * action, which would need a real network call.
+     */
+    public function test_unique_filename_disambiguates_instead_of_silently_colliding(): void
+    {
+        Storage::fake('public');
+
+        $component = UrlImageUploader::make('image')
+            ->directory('gallery')
+            ->preserveFilenames();
+
+        $method = new \ReflectionMethod($component, 'uniqueFilename');
+        $method->setAccessible(true);
+
+        $this->assertSame('photo.jpg', $method->invoke($component, 'photo.jpg'));
+
+        Storage::disk('public')->put('gallery/photo.jpg', 'first-image-bytes');
+
+        $this->assertSame('photo-1.jpg', $method->invoke($component, 'photo.jpg'));
+
+        Storage::disk('public')->put('gallery/photo-1.jpg', 'second-image-bytes');
+
+        $this->assertSame('photo-2.jpg', $method->invoke($component, 'photo.jpg'));
+
+        // The two "first" files must both still exist, untouched — the
+        // whole point of the fix.
+        Storage::disk('public')->assertExists('gallery/photo.jpg');
+        Storage::disk('public')->assertExists('gallery/photo-1.jpg');
+        $this->assertSame('first-image-bytes', Storage::disk('public')->get('gallery/photo.jpg'));
+        $this->assertSame('second-image-bytes', Storage::disk('public')->get('gallery/photo-1.jpg'));
     }
 }
