@@ -2,6 +2,24 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 1.1.1 - 2026-09-19
+
+Maintenance release — no code changes to the field itself. Addresses package-health gaps flagged
+by the Filament plugin directory's automated Composer package scan.
+
+### Added
+- `SECURITY.md` — a real security policy file (previously only documented in the README).
+- `.github/dependabot.yml` — weekly dependency update checks for Composer and GitHub Actions.
+- `.github/workflows/tests.yml` — CI running the PHPUnit suite and PHPStan analysis on every push
+  and pull request, against PHP 8.1–8.3, with all Actions pinned to a commit SHA.
+- A README banner image (`art/banner.svg` / `art/banner.png`).
+
+### Fixed
+- **`composer.lock` was being shipped in the release dist archive.** Added `.gitattributes` with
+  `export-ignore` rules for `composer.lock`, `tests/`, `.github/`, `.vscode/`, `art/`, and other
+  dev-only files, so `composer require` and Composer's package archive no longer pull in files a
+  consuming application doesn't need.
+
 ## 1.1.0 - 2026-07-17
 
 1.0.3 fixed several real bugs but its `getChildComponentContainer()` override left the field broken
