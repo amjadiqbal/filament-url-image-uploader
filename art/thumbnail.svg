@@ -1,0 +1,45 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="720" fill="url(#bgGrad)"/>
+  <circle cx="640" cy="280" r="420" fill="url(#glow)"/>
+
+  <g opacity="0.05" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="120" x2="1280" y2="120"/>
+    <line x1="0" y1="240" x2="1280" y2="240"/>
+    <line x1="0" y1="360" x2="1280" y2="360"/>
+    <line x1="0" y1="480" x2="1280" y2="480"/>
+    <line x1="0" y1="600" x2="1280" y2="600"/>
+  </g>
+
+  <!-- Big centered icon -->
+  <g transform="translate(500, 140)">
+    <rect width="280" height="280" rx="56" fill="url(#iconGrad)"/>
+    <rect x="52" y="52" width="176" height="176" rx="26" fill="none" stroke="#ffffff" stroke-width="13"/>
+    <circle cx="106" cy="114" r="18" fill="#ffffff"/>
+    <path d="M62 196 L128 132 L164 170 L216 120 L216 208 L62 208 Z" fill="#ffffff" opacity="0.95"/>
+    <path d="M158 76 a25 25 0 0 1 25 -25 h19 a25 25 0 0 1 0 50 h-9" stroke="#0f172a" stroke-width="11" fill="none" stroke-linecap="round"/>
+    <path d="M202 94 a25 25 0 0 1 -25 25 h-19 a25 25 0 0 1 0 -50 h9" stroke="#0f172a" stroke-width="11" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="640" y="490" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#ffffff" text-anchor="middle">URL <tspan fill="#f59e0b">Image Uploader</tspan></text>
+  <text x="640" y="536" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#94a3b8" text-anchor="middle">for FilamentPHP</text>
+
+  <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" fill="#64748b" text-anchor="middle">
+    <text x="640" y="600">Filament 3.x  ·  PHP 8.3+  ·  MIT Licensed</text>
+  </g>
+</svg>
