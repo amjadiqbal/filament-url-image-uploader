@@ -28,7 +28,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        uses: ramsey/composer-install@a2636af0004d1c0499ffca16ac0b4cc94df70565 # 3.1.0
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
 
       - name: Run PHPStan
         run: composer analyse
