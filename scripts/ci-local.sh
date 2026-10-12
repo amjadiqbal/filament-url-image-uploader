@@ -21,8 +21,13 @@ php_bin() {
 }
 
 COMPOSER=$(command -v composer)
+SHIM=$(mktemp -d); trap 'rm -rf "$SHIM"' EXIT
+BASE_PATH=$PATH
 for v in $PHP_VERSIONS; do
   PHP=$(php_bin "$v") || { RESULTS+=("FAIL  PHP $v not found"); FAILED=1; continue; }
+  # vendor/bin scripts start with "#!/usr/bin/env php": put this version first on PATH so they don't run on the default PHP.
+  ln -sf "$PHP" "$SHIM/php"; export PATH="$SHIM:$BASE_PATH"
+  step "PHP $v active" sh -c "php -r 'exit(PHP_MAJOR_VERSION.\".\".PHP_MINOR_VERSION === \"$v\" ? 0 : 1);'"
   step "PHP $v composer install" "$PHP" "$COMPOSER" install --no-interaction --no-progress --prefer-dist
   step "PHP $v phpstan"          "$PHP" "$COMPOSER" analyse
   step "PHP $v phpunit"          "$PHP" "$COMPOSER" test
