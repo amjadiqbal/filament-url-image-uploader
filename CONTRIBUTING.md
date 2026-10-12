@@ -4,7 +4,8 @@
 
 GitHub workflows don't run checks for this repo (Amjad, 2026-10-10: failed runs flood his email). The `Tests`
 workflow is disabled and its file (`.github/workflows/tests.yml`) stays only as a reference for what the local run
-covers. Don't re-enable or trigger it.
+covers. Don't re-enable or trigger it. Dependabot version updates are off too (no `.github/dependabot.yml`):
+dependency bumps are manual PRs that run the same local CI.
 
 Every PR runs the same checks on the developer's machine and pastes the summary block into its description:
 
