@@ -1,6 +1,7 @@
 @php
     use Illuminate\Support\Arr;
     use Illuminate\Support\Facades\Storage;
+    use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 @endphp
 
 <x-dynamic-component
@@ -23,7 +24,15 @@
 
             $uploadedImage = null;
 
-            if (filled($path)) {
+            if ($path instanceof TemporaryUploadedFile) {
+                // A file picked in the upload tab but not saved yet lives in
+                // Livewire's temporary storage, not on the field's disk.
+                try {
+                    $uploadedImage = $path->isPreviewable() ? $path->temporaryUrl() : null;
+                } catch (\Throwable) {
+                    $uploadedImage = null;
+                }
+            } elseif (filled($path)) {
                 $uploadedImage = filter_var($path, FILTER_VALIDATE_URL)
                     ? $path
                     : Storage::disk($field->getDisk())->url($path);
@@ -38,16 +47,27 @@
             }
         @endphp
 
+        {{--
+            Filament 4+ panels ship a prebuilt stylesheet that only contains
+            the Tailwind classes Filament itself uses, so utility classes in a
+            plugin view (w-32, group-hover:..., bg-black/50) are silently
+            missing. The preview is styled here instead, with no build step.
+        --}}
+        @once
+            <style>
+                .fi-url-image-uploader-preview { position: relative; display: inline-block; margin-top: 0.5rem; }
+                .fi-url-image-uploader-preview img { display: block; width: 8rem; height: 8rem; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 1px 2px rgb(0 0 0 / 0.05); transition: filter 0.3s; }
+                .fi-url-image-uploader-preview span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; border-radius: 0.5rem; background: rgb(0 0 0 / 0.5); color: #fff; font-size: 0.875rem; opacity: 0; transition: opacity 0.15s; }
+                .fi-url-image-uploader-preview:hover img { filter: brightness(0.9); }
+                .fi-url-image-uploader-preview:hover span { opacity: 1; }
+            </style>
+        @endonce
+
         @if($uploadedImage)
-            <div class="mt-2 flex items-center gap-2">
-                <div class="relative group">
-                    <img src="{{ $uploadedImage }}"
-                         alt="{{ __('filament-url-image-uploader::url-image-uploader.preview.alt') }}"
-                         class="w-32 h-32 object-contain rounded-lg shadow-sm transition-all duration-300 group-hover:brightness-90" />
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
-                        <span class="text-white text-sm">{{ __('filament-url-image-uploader::url-image-uploader.preview.hover') }}</span>
-                    </div>
-                </div>
+            <div class="fi-url-image-uploader-preview">
+                <img src="{{ $uploadedImage }}"
+                     alt="{{ __('filament-url-image-uploader::url-image-uploader.preview.alt') }}" />
+                <span>{{ __('filament-url-image-uploader::url-image-uploader.preview.hover') }}</span>
             </div>
         @endif
     </div>

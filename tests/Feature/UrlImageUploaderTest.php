@@ -88,6 +88,11 @@ class UrlImageUploaderTest extends TestCase
         // live path from the raw FileUpload state, without waiting for
         // dehydration/save.
         $component->assertSee('Image Preview', false);
+
+        // The unsaved file is previewed through Livewire's signed temporary
+        // URL, not through the field's disk (where it doesn't exist yet,
+        // which rendered a broken /storage/<tmp path> image).
+        $component->assertSee('preview-file', false);
     }
 
     public function test_preview_resolves_uuid_keyed_state_for_an_existing_image(): void
