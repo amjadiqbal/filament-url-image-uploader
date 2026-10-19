@@ -2,13 +2,17 @@
 
 namespace AmjadIqbal\FilamentUrlImageUploader\Components;
 
-use Filament\Forms\Components\Actions;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Set;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Component;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -66,11 +70,17 @@ class UrlImageUploader extends Field
     {
         parent::setUp();
 
+        // Filament 4+ only walks child schemas registered through
+        // schema()/childComponents() (overriding getChildComponents(), as
+        // the Filament 3 version did, is no longer enough: the children are
+        // then rendered but never hydrated, validated or saved).
+        $this->schema(fn (): array => $this->getUploaderComponents());
+
         // Push the value captured in hydrateDefaultState() into the child
         // upload/url fields once they've finished their own (destructive)
         // hydration, so the preview and inputs reflect the real stored image.
         $this->afterStateHydrated(function (self $component): void {
-            $component->getChildComponentContainer()->fill([
+            $component->getChildSchema()->fill([
                 'path' => filled($component->initialPath) ? [$component->initialPath] : [],
                 'url' => $component->initialUrl,
             ]);
@@ -81,7 +91,7 @@ class UrlImageUploader extends Field
         // Repeater row, so consumers (Eloquent accessors/mutators) receive a
         // predictable scalar instead of the nested upload/url sub-state.
         $this->dehydrateStateUsing(function (self $component) {
-            $childState = $component->getChildComponentContainer()->getRawState();
+            $childState = $component->getChildSchema()->getRawState();
 
             $path = $childState['path'] ?? null;
 
@@ -135,12 +145,19 @@ class UrlImageUploader extends Field
         return $this->disk;
     }
 
-    public function getChildComponents(): array
+    /**
+     * The upload/URL tabs. Registered as this field's child schema in
+     * setUp() through a closure, so it is built lazily and
+     * directory()/disk()/preserveFilenames() set after make() still apply.
+     *
+     * @return array<Component>
+     */
+    protected function getUploaderComponents(): array
     {
         return [
             Tabs::make('upload_methods')
                 ->tabs([
-                    Tabs\Tab::make('upload')
+                    Tab::make('upload')
                         ->label(__('filament-url-image-uploader::url-image-uploader.tabs.upload.label'))
                         ->icon('heroicon-o-arrow-up-tray')
                         ->schema([
@@ -156,7 +173,7 @@ class UrlImageUploader extends Field
                                 // nested {path, url} shape.
                                 ->dehydrated(false),
                         ]),
-                    Tabs\Tab::make('url')
+                    Tab::make('url')
                         ->label(__('filament-url-image-uploader::url-image-uploader.tabs.url.label'))
                         ->icon('heroicon-o-globe-alt')
                         ->schema([
@@ -183,11 +200,11 @@ class UrlImageUploader extends Field
                                 ->dehydrated(false)
                                 ->helperText(__('filament-url-image-uploader::url-image-uploader.url.helper_text')),
                             Actions::make([
-                                Actions\Action::make('fetch')
+                                Action::make('fetch')
                                     ->label(__('filament-url-image-uploader::url-image-uploader.actions.fetch.label'))
                                     ->icon('heroicon-o-arrow-down-tray')
-                                    ->action(function (Set $set, $state) {
-                                        $imageUrl = $state['url'] ?? null;
+                                    ->action(function (Get $get, Set $set) {
+                                        $imageUrl = $get('url');
 
                                         if (! $imageUrl || ! filter_var($imageUrl, FILTER_VALIDATE_URL)) {
                                             Notification::make()

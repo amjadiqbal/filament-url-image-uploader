@@ -11,3 +11,4 @@
 /composer.lock export-ignore
 /CHANGELOG.md export-ignore
 /art export-ignore
+/scripts export-ignore

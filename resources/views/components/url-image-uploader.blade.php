@@ -8,10 +8,10 @@
     :field="$field"
 >
     <div class="filament-url-image-uploader">
-        {{ $getChildComponentContainer() }}
+        {{ $getChildSchema() }}
 
         @php
-            $childState = $field->getChildComponentContainer()->getRawState();
+            $childState = $field->getChildSchema()->getRawState();
             $path = $childState['path'] ?? null;
 
             // FileUpload's live state is a UUID-keyed array (e.g.

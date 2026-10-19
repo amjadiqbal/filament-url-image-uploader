@@ -3,9 +3,12 @@
 namespace AmjadIqbal\FilamentUrlImageUploader\Tests;
 
 use AmjadIqbal\FilamentUrlImageUploader\FilamentUrlImageUploaderServiceProvider;
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,9 +36,12 @@ class TestCase extends Orchestra
     {
         return [
             LivewireServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
             SupportServiceProvider::class,
             NotificationsServiceProvider::class,
             ActionsServiceProvider::class,
+            SchemasServiceProvider::class,
             FormsServiceProvider::class,
             FilamentUrlImageUploaderServiceProvider::class,
         ];

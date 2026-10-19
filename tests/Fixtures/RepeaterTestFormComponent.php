@@ -3,15 +3,18 @@
 namespace AmjadIqbal\FilamentUrlImageUploader\Tests\Fixtures;
 
 use AmjadIqbal\FilamentUrlImageUploader\Components\UrlImageUploader;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Livewire\Component;
 
-class RepeaterTestFormComponent extends Component implements HasForms
+class RepeaterTestFormComponent extends Component implements HasActions, HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithActions;
+    use InteractsWithSchemas;
 
     public ?TestModel $record = null;
 
@@ -24,12 +27,12 @@ class RepeaterTestFormComponent extends Component implements HasForms
         $this->form->fill($this->record->attributesToArray());
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Repeater::make('gallery')
-                    ->schema([
+                    ->components([
                         UrlImageUploader::make('image')
                             ->directory('gallery'),
                     ])
