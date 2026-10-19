@@ -20,7 +20,10 @@
             // indexed one — Arr::first() grabs the value regardless of key.
             $path = is_array($path) ? Arr::first($path) : $path;
 
-            $record = $field->getRecord();
+            // No fallback to $record->{name}: the stored value is already
+            // hydrated into the live state above, and inside a Repeater row
+            // that lookup hits the parent record's same-named column (a new,
+            // empty gallery row previewed the post's main image).
 
             $uploadedImage = null;
 
@@ -36,14 +39,6 @@
                 $uploadedImage = filter_var($path, FILTER_VALIDATE_URL)
                     ? $path
                     : Storage::disk($field->getDisk())->url($path);
-            } elseif ($record && $field->getName() && $record->{$field->getName()}) {
-                $existingImage = $record->{$field->getName()};
-
-                if (filter_var($existingImage, FILTER_VALIDATE_URL)) {
-                    $uploadedImage = $existingImage;
-                } else {
-                    $uploadedImage = Storage::disk($field->getDisk())->url($existingImage);
-                }
             }
         @endphp
 

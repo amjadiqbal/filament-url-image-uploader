@@ -272,4 +272,25 @@ class RepeaterGalleryTest extends TestCase
         $this->assertSame('gallery/a.jpg', $gallery[0]['image']);
         $this->assertNull($gallery[1]['image']);
     }
+
+    public function test_a_new_empty_row_does_not_preview_the_parent_records_same_named_column(): void
+    {
+        // TestModel has its own `image` column as well as the `gallery`
+        // whose rows each hold an `image` — the same name a real
+        // Post { image, gallery[].image } model ends up with.
+        Storage::disk('public')->put('images/main.jpg', 'fake-main');
+        Storage::disk('public')->put('gallery/a.jpg', 'fake-a');
+
+        $record = TestModel::create([
+            'image' => 'images/main.jpg',
+            'gallery' => [['image' => 'gallery/a.jpg']],
+        ]);
+
+        $component = Livewire::test(RepeaterTestFormComponent::class, ['recordId' => $record->id]);
+
+        $component->callFormComponentAction('gallery', 'add');
+
+        $component->assertSee('/storage/gallery/a.jpg', false);
+        $component->assertDontSee('/storage/images/main.jpg', false);
+    }
 }
