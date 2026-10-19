@@ -2,6 +2,41 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
+## 2.0.0 - Unreleased
+
+Filament 4 and 5 support. **Filament 3 is no longer supported by 2.x**: Filament 3 users stay on
+1.x (`^1.4`, maintained on the `1.x` branch). The field's PHP API and the stored value are
+unchanged, so upgrading needs no changes to forms or data.
+
+### Changed
+- `filament/filament` constraint is now `^4.0|^5.0` (was `^3.0`). PHP floor stays `^8.3`.
+- Ported to the Filament 4/5 schema API: `Tabs`, `Tab` and `Actions` from `Filament\Schemas`,
+  `Action` from `Filament\Actions`, `Get`/`Set` from `Filament\Schemas\Components\Utilities`,
+  `getChildSchema()` instead of `getChildComponentContainer()`.
+- The upload/URL tabs are registered with `schema()` in `setUp()`. Overriding
+  `getChildComponents()`, as 1.x did, still renders on Filament 4+ but the tabs are never
+  hydrated, validated or saved (an uploaded file was stored as its temporary path).
+- The Fetch Image action reads the URL with `$get('url')`.
+
+### Fixed
+- **Preview styling on Filament 4/5.** Panels ship a prebuilt stylesheet with only Filament's own
+  Tailwind classes, so the preview's utility classes were missing (full-width image, hover label
+  always visible). The preview now uses a small scoped stylesheet; no asset build is needed.
+- **Unsaved uploads previewed as a broken image.** A file picked in the upload tab but not yet
+  saved was previewed through `Storage::url()` of its temporary path. It now uses Livewire's signed
+  temporary URL.
+- **A new, empty Repeater row previewed the parent record's image** (also present in 1.x). The
+  preview fell back to `$record->{name}`, which inside a Repeater is the parent model's same-named
+  column, and a removed image kept showing. The fallback is removed; the stored value is already
+  hydrated into the field.
+
+### Tests
+- Fixtures use `HasSchemas`/`HasActions`; new `FetchFromUrlTest` drives the Fetch Image action
+  against a local HTTP server (image, non-image, 404, invalid URL, `file://`, field error).
+- `scripts/ci-local.sh` runs PHPStan and PHPUnit on PHP 8.3 and 8.4 against both Filament 5 (lock
+  file) and Filament 4.
+- Verified in real Filament 4.15.2 and 5.10.2 panels (Laravel 12) installed from `git archive`.
+
 ## 1.4.0 - 2026-09-19
 
 ### Fixed

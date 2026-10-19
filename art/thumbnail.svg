@@ -8,14 +8,9 @@
       <stop offset="0%" stop-color="#fbbf24"/>
       <stop offset="100%" stop-color="#d97706"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.22"/>
-      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
   <rect width="1280" height="720" fill="url(#bgGrad)"/>
-  <circle cx="640" cy="280" r="420" fill="url(#glow)"/>
 
   <g opacity="0.05" stroke="#ffffff" stroke-width="1">
     <line x1="0" y1="120" x2="1280" y2="120"/>
@@ -40,6 +35,6 @@
   <text x="640" y="536" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#94a3b8" text-anchor="middle">for FilamentPHP</text>
 
   <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" fill="#64748b" text-anchor="middle">
-    <text x="640" y="600">Filament 3.x  ·  PHP 8.3+  ·  MIT Licensed</text>
+    <text x="640" y="600">Filament 4.x &amp; 5.x  ·  PHP 8.3+  ·  MIT Licensed</text>
   </g>
 </svg>

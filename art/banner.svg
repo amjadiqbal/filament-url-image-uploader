@@ -12,14 +12,9 @@
       <stop offset="0%" stop-color="#fbbf24"/>
       <stop offset="100%" stop-color="#f59e0b"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
-    </radialGradient>
   </defs>
 
   <rect width="1280" height="640" fill="url(#bgGrad)"/>
-  <circle cx="1000" cy="300" r="380" fill="url(#glow)"/>
 
   <!-- subtle grid texture -->
   <g opacity="0.05" stroke="#ffffff" stroke-width="1">
@@ -95,10 +90,10 @@
 
   <!-- badges -->
   <g font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#64748b" transform="translate(80, 560)">
-    <text x="0" y="0">Filament 3.x</text>
-    <circle cx="112" cy="-5" r="2.5" fill="#475569"/>
-    <text x="124" y="0">PHP 8.3+</text>
-    <circle cx="216" cy="-5" r="2.5" fill="#475569"/>
-    <text x="228" y="0">MIT Licensed</text>
+    <text x="0" y="0">Filament 4.x &amp; 5.x</text>
+    <circle cx="149" cy="-5" r="2.5" fill="#475569"/>
+    <text x="161" y="0">PHP 8.3+</text>
+    <circle cx="253" cy="-5" r="2.5" fill="#475569"/>
+    <text x="265" y="0">MIT Licensed</text>
   </g>
 </svg>
