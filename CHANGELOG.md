@@ -33,9 +33,11 @@ unchanged, so upgrading needs no changes to forms or data.
 ### Tests
 - Fixtures use `HasSchemas`/`HasActions`; new `FetchFromUrlTest` drives the Fetch Image action
   against a local HTTP server (image, non-image, 404, invalid URL, `file://`, field error).
-- `scripts/ci-local.sh` runs PHPStan and PHPUnit on PHP 8.3 and 8.4 against both Filament 5 (lock
-  file) and Filament 4.
-- Verified in real Filament 4.15.2 and 5.10.2 panels (Laravel 12) installed from `git archive`.
+- `scripts/ci-local.sh` runs PHPStan and PHPUnit on PHP 8.3 and 8.4 against Laravel 12 and 13 and
+  Filament 5 and 4 (Laravel 12 + Filament 5 from the lock file, the rest in a throwaway clone of
+  HEAD). Laravel 13 needs `orchestra/testbench` ^11, now allowed in `require-dev`.
+- Verified in real Filament 4.15.2 and 5.10.2 panels on Laravel 12, and Filament 5.10.2 on Laravel
+  13.38, installed from `git archive`.
 
 ## 1.4.0 - 2026-09-19
 
