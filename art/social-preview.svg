@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+<defs>
+  <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1120"/><stop offset="1" stop-color="#172033"/></linearGradient>
+</defs>
+<rect width="1280" height="640" fill="url(#bg)"/>
+<g transform="translate(490 44) scale(0.58594)"><rect width="512" height="512" rx="112" fill="url(#amber)"/>
+<clipPath id="cardclip"><rect x="96" y="104" width="256" height="224" rx="28"/></clipPath>
+<rect x="96" y="104" width="256" height="224" rx="28" fill="#ffffff"/>
+<g clip-path="url(#cardclip)">
+  <circle cx="170" cy="170" r="26" fill="#f59e0b"/>
+  <path d="M96 328 L96 290 L196 206 L256 262 L292 232 L352 286 L352 328 Z" fill="#cbd5e1"/>
+  <path d="M96 328 L96 312 L176 250 L236 304 L262 328 Z" fill="#1e293b"/>
+</g>
+<circle cx="360" cy="352" r="86" fill="#0f172a"/>
+<g transform="translate(360 352) rotate(-45)" fill="none" stroke="#fbbf24" stroke-width="10" stroke-linecap="round">
+  <rect x="-64" y="-17" width="66" height="34" rx="17"/>
+  <rect x="-2" y="-17" width="66" height="34" rx="17"/>
+</g></g>
+<text x="640" y="424" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="80" font-weight="800" fill="#ffffff" text-anchor="middle">URL Image Uploader</text>
+<text x="640" y="480" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="30" font-weight="500" fill="#fbbf24" text-anchor="middle">Upload an image, or paste its URL, in Filament</text>
+<rect x="216" y="520" width="228" height="38" rx="19" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="330" y="545.12" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#cbd5e1" text-anchor="middle">upload or URL fetch</text>
+<rect x="460" y="520" width="209" height="38" rx="19" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="564" y="545.12" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#cbd5e1" text-anchor="middle">plain path string</text>
+<rect x="685" y="520" width="181" height="38" rx="19" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="775" y="545.12" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#cbd5e1" text-anchor="middle">Repeater-ready</text>
+<rect x="882" y="520" width="181" height="38" rx="19" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="972" y="545.12" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#cbd5e1" text-anchor="middle">Filament 4 · 5</text>
+<text x="1240" y="612" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="500" fill="#64748b" text-anchor="end">amjadiqbal/filament-url-image-uploader</text>
+</svg>

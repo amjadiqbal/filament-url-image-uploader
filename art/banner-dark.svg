@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+<defs>
+  <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1120"/><stop offset="1" stop-color="#172033"/></linearGradient>
+</defs>
+<rect width="1200" height="300" fill="url(#bg)"/>
+<g transform="translate(60 75) scale(0.29297)"><rect width="512" height="512" rx="112" fill="url(#amber)"/>
+<clipPath id="cardclip"><rect x="96" y="104" width="256" height="224" rx="28"/></clipPath>
+<rect x="96" y="104" width="256" height="224" rx="28" fill="#ffffff"/>
+<g clip-path="url(#cardclip)">
+  <circle cx="170" cy="170" r="26" fill="#f59e0b"/>
+  <path d="M96 328 L96 290 L196 206 L256 262 L292 232 L352 286 L352 328 Z" fill="#cbd5e1"/>
+  <path d="M96 328 L96 312 L176 250 L236 304 L262 328 Z" fill="#1e293b"/>
+</g>
+<circle cx="360" cy="352" r="86" fill="#0f172a"/>
+<g transform="translate(360 352) rotate(-45)" fill="none" stroke="#fbbf24" stroke-width="10" stroke-linecap="round">
+  <rect x="-64" y="-17" width="66" height="34" rx="17"/>
+  <rect x="-2" y="-17" width="66" height="34" rx="17"/>
+</g></g>
+<text x="236" y="142" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="58" font-weight="800" fill="#ffffff" text-anchor="start">URL Image Uploader</text>
+<text x="238" y="182" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="500" fill="#fbbf24" text-anchor="start">Upload an image, or just paste its URL</text>
+<rect x="236" y="206" width="207" height="34" rx="17" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="339" y="228.4" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#cbd5e1" text-anchor="middle">upload or URL fetch</text>
+<rect x="457" y="206" width="190" height="34" rx="17" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="552" y="228.4" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#cbd5e1" text-anchor="middle">plain path string</text>
+<rect x="661" y="206" width="165" height="34" rx="17" fill="#111c31" stroke="#27354d" stroke-width="1.5"/>
+<text x="743" y="228.4" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="#cbd5e1" text-anchor="middle">Filament 4 · 5</text>
+<text x="1148" y="284" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="500" fill="#64748b" text-anchor="end">amjadiqbal/filament-url-image-uploader</text>
+<g transform="translate(868 40)">
+<rect width="292" height="214" rx="16" fill="#111827" stroke="#334155" stroke-width="1.5"/>
+<text x="20" y="32" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="start">IMAGE FIELD · Post #7</text>
+<rect x="20" y="48" width="104" height="30" rx="15" fill="#111827" stroke="#475569" stroke-width="1.5"/>
+<text x="72" y="68" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#cbd5e1" text-anchor="middle">File Upload</text>
+<rect x="132" y="48" width="104" height="30" rx="15" fill="#fbbf24"/>
+<text x="184" y="68" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">URL Upload</text>
+<rect x="20" y="92" width="252" height="34" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+<text x="32" y="114" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12" font-weight="500" fill="#94a3b8" text-anchor="start">https://cdn.example.com/photo.jpg</text>
+<rect x="20" y="138" width="108" height="30" rx="9" fill="#fbbf24"/>
+<text x="74" y="158" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">Fetch Image</text>
+<rect x="20" y="176" width="28" height="26" rx="6" fill="#1e293b"/>
+<path d="M20 202 L20 192 L30 183 L36 189 L40 185 L48 192 L48 196 Q48 202 42 202 Z" fill="#fbbf24"/>
+<text x="58" y="194" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12" font-weight="600" fill="#4ade80" text-anchor="start">saved: posts/Ifo98Ax…_photo.jpg</text>
+</g>
+</svg>

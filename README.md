@@ -1,5 +1,8 @@
 <p align="center">
-  <img alt="URL Image Uploader for FilamentPHP: upload a file, or paste an image URL" src="art/banner.png" width="100%">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
+    <img alt="URL Image Uploader for Filament: upload an image, or paste its URL" src="art/banner-light.png" width="100%">
+  </picture>
 </p>
 
 # Filament URL Image Uploader
