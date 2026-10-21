@@ -2,7 +2,7 @@
 
 All notable changes to `filament-url-image-uploader` will be documented in this file.
 
-## 2.0.0 - Unreleased
+## 2.0.0 - 2026-10-21
 
 Filament 4 and 5 support. **Filament 3 is no longer supported by 2.x**: Filament 3 users stay on
 1.x (`^1.4`, maintained on the `1.x` branch). The field's PHP API and the stored value are
