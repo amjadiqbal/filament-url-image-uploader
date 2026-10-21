@@ -6,6 +6,7 @@ use AmjadIqbal\FilamentUrlImageUploader\FilamentUrlImageUploaderServiceProvider;
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
 use Filament\Actions\ActionsServiceProvider;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Schemas\SchemasServiceProvider;
@@ -69,5 +70,20 @@ class TestCase extends Orchestra
             'filament-url-image-uploader-tests',
             __DIR__.'/Fixtures/views',
         );
+    }
+
+    /**
+     * Filament 6 turns FileUpload::preventFilePathTampering() on by default
+     * (it is opt-in on 4.11+/5.x and does not exist before that). This makes
+     * Filament 4/5 behave the way 6 does, so the F6 default can be tested
+     * without a 6.x install. Skips the test on a Filament without the method.
+     */
+    protected function simulateFilamentSixFilePathTampering(): void
+    {
+        if (! method_exists(FileUpload::class, 'preventFilePathTampering')) {
+            $this->markTestSkipped('This Filament version has no preventFilePathTampering().');
+        }
+
+        FileUpload::configureUsing(fn (FileUpload $upload) => $upload->preventFilePathTampering());
     }
 }

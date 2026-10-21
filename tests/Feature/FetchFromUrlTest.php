@@ -100,6 +100,29 @@ class FetchFromUrlTest extends TestCase
             ->assertSee('/storage/'.$livePath, false);
     }
 
+    public function test_a_fetched_image_saves_when_filament_prevents_file_path_tampering(): void
+    {
+        // Filament 6 default: a stored path the record never held must still pass validation.
+        $this->simulateFilamentSixFilePathTampering();
+
+        $record = TestModel::create();
+
+        $component = Livewire::test(TestFormComponent::class, ['recordId' => $record->id]);
+
+        $this->fetch($component, static::$serverUrl.'/photo.png')
+            ->assertNotified('Image fetched successfully');
+
+        $livePath = Arr::first($component->get('data.image.path'));
+
+        $component->call('save')->assertHasNoFormErrors();
+        $this->assertSame($livePath, $record->fresh()->image);
+
+        Livewire::test(TestFormComponent::class, ['recordId' => $record->id])
+            ->call('save')
+            ->assertHasNoFormErrors();
+        $this->assertSame($livePath, $record->fresh()->image);
+    }
+
     public function test_a_url_that_is_not_an_image_is_rejected_and_nothing_is_stored(): void
     {
         $record = TestModel::create();

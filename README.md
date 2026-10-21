@@ -72,6 +72,17 @@ Storage::disk('public')->url($post->image);
 Each failure shows a Filament notification and stores nothing. A malformed URL left in the URL tab
 also blocks saving with a field error.
 
+### File paths and Filament's tampering check
+
+The field saves the storage path it was given, so it opts its inner upload out of
+`FileUpload::preventFilePathTampering()` (opt-in from Filament 4.11 / 5.6, and **on by default in the
+Filament 6 development branch**). That check compares a submitted path with the record's original
+value for an attribute named like the upload; this field's inner upload is not a model attribute, so
+with the check on every stored image would be rejected. As on Filament 4 and 5 today, a submitted
+path is therefore not tied back to the record: if the disk holds files belonging to other users or
+tenants, give each their own `directory()`. Filament 6 is not released and is not a supported
+version of this package yet; this only keeps 2.x from failing on it.
+
 ## Configuration
 
 ### Directory

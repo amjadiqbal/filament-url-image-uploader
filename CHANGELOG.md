@@ -19,6 +19,16 @@ unchanged, so upgrading needs no changes to forms or data.
 - The Fetch Image action reads the URL with `$get('url')`.
 
 ### Fixed
+- **Ready for Filament 6's default file-path check.** Filament 6 validates every submitted
+  `FileUpload` path against `$record->getOriginal()` for the attribute named like the upload. The
+  inner upload is named `path`, which is not a model attribute, so every stored image (loaded from
+  the record, or just fetched from a URL, in a Repeater row too) failed with "The path field
+  contains a file path that is not permitted." The inner upload now calls
+  `preventFilePathTampering(false)` where that method exists (Filament 4.11+ / 5.6+; earlier
+  versions have neither the method nor the check). Found by reading the 6.x branch
+  (`BaseFileUpload`'s default flips to `true`, and the upgrade guide describes the check), then
+  reproduced on Filament 5 by turning the default on, and confirmed against `6.x` (dev). Filament 6
+  is not released and is not a supported version yet. See the README note on file paths.
 - **Preview styling on Filament 4/5.** Panels ship a prebuilt stylesheet with only Filament's own
   Tailwind classes, so the preview's utility classes were missing (full-width image, hover label
   always visible). The preview now uses a small scoped stylesheet; no asset build is needed.
@@ -36,6 +46,9 @@ unchanged, so upgrading needs no changes to forms or data.
 - `scripts/ci-local.sh` runs PHPStan and PHPUnit on PHP 8.3 and 8.4 against Laravel 12 and 13 and
   Filament 5 and 4 (Laravel 12 + Filament 5 from the lock file, the rest in a throwaway clone of
   HEAD). Laravel 13 needs `orchestra/testbench` ^11, now allowed in `require-dev`.
+- `FilePathTamperingTest` and a `FetchFromUrlTest` case turn Filament 6's default path check on
+  (`FileUpload::configureUsing()`) and save an existing image, a Repeater gallery and a freshly
+  fetched image; they fail without the opt-out.
 - Verified in real Filament 4.15.2 and 5.10.2 panels on Laravel 12, and Filament 5.10.2 on Laravel
   13.38, installed from `git archive`.
 

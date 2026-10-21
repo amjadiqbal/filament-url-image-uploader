@@ -154,25 +154,40 @@ class UrlImageUploader extends Field
      */
     protected function getUploaderComponents(): array
     {
+        $upload = FileUpload::make('path')
+            ->image()
+            ->preserveFilenames($this->shouldPreserveFilenames)
+            ->directory($this->directory)
+            ->disk($this->disk)
+            // Dehydrated by the parent field's own
+            // dehydrateStateUsing instead — otherwise this
+            // child's independent dehydration overwrites
+            // the parent's shared state path with its own
+            // nested {path, url} shape.
+            ->dehydrated(false);
+
+        // Filament 6 checks every submitted upload path against the record's
+        // original value for the attribute named like the field ($record->
+        // getOriginal('path')). This inner upload is named "path", which is
+        // not a model attribute, so with the check on every stored image (one
+        // just fetched from a URL, or one loaded from the record, inside a
+        // Repeater row too) fails validation as a "tampered file path".
+        // preventFilePathTampering() exists from Filament 4.11 / 5.6 and is
+        // off by default until 6; older versions have neither the method nor
+        // the check, so call it only where it exists. (Reflection rather than
+        // method_exists(): static analysis only sees the installed Filament,
+        // where the method exists, and would call a plain guard redundant.)
+        if ((new \ReflectionClass($upload))->hasMethod('preventFilePathTampering')) {
+            $upload->preventFilePathTampering(false);
+        }
+
         return [
             Tabs::make('upload_methods')
                 ->tabs([
                     Tab::make('upload')
                         ->label(__('filament-url-image-uploader::url-image-uploader.tabs.upload.label'))
                         ->icon('heroicon-o-arrow-up-tray')
-                        ->schema([
-                            FileUpload::make('path')
-                                ->image()
-                                ->preserveFilenames($this->shouldPreserveFilenames)
-                                ->directory($this->directory)
-                                ->disk($this->disk)
-                                // Dehydrated by the parent field's own
-                                // dehydrateStateUsing instead — otherwise this
-                                // child's independent dehydration overwrites
-                                // the parent's shared state path with its own
-                                // nested {path, url} shape.
-                                ->dehydrated(false),
-                        ]),
+                        ->schema([$upload]),
                     Tab::make('url')
                         ->label(__('filament-url-image-uploader::url-image-uploader.tabs.url.label'))
                         ->icon('heroicon-o-globe-alt')
